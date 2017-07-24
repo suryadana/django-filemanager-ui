@@ -7,7 +7,8 @@ git clone https://github.com/suryadana/django-filemanager-ui.git
 ```
 Copy **filemanager** folder to your project
 Add `filemanager` to your `INSTALLED_APPS`:
-```    INSTALLED_APPS = (
+```   
+    INSTALLED_APPS = (
         ...
         'filemanager',
         ...
