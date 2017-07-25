@@ -1,7 +1,7 @@
 import os, re
+from slugify import slugify
 from filemanager import signals
 from django.conf import settings
-from slugify import slugify
 from django.core.files.base import ContentFile
 from filemanager.settings import DIRECTORY, STORAGE	
 
@@ -26,41 +26,6 @@ class Filemanager(object):
     # remove leading and trailing slashes
     path = '/'.join([i for i in path.split('/') if i])
     return path
-
-  def get_breadcrumbs(self):
-    breadcrumbs = [{
-        'label': 'Filemanager',
-        'path': '',
-    }]
-
-    parts = [e for e in self.path.split('/') if e]
-
-    path = ''
-    for part in parts:
-        path = os.path.join(path, part)
-        breadcrumbs.append({
-            'label': part,
-            'path': path,
-        })
-
-    return breadcrumbs
-
-  def patch_context_data(self, context):
-    context.update({
-        'path': self.path,
-        'breadcrumbs': self.get_breadcrumbs(),
-    })
-
-  def file_details(self):
-    filename = self.path.rsplit('/', 1)[-1]
-    return {
-        'directory': os.path.dirname(self.path),
-        'filepath': self.path,
-        'filename': filename,
-        'filesize': sizeof_fmt(STORAGE.size(self.location)),
-        'filedate': STORAGE.modified_time(self.location),
-        'fileurl': self.url,
-    }
 
   def directory_list(self):
     listing = []

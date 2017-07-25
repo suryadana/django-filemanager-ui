@@ -3,16 +3,19 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import JsonResponse
-from django.contrib.admin.views.decorators import staff_member_required
 from filemanager.core import Filemanager
+from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 
 # Create your views here.
 
 # Basic view
+@login_required
 @staff_member_required # Require admin role user
 def basic(request):
 	return render(request, 'basic.html')
 
+@login_required
 @staff_member_required
 def connector(request):
 	fm = Filemanager()
@@ -34,16 +37,14 @@ def connector(request):
 	  elif action == "uploadfile":
 			files = request.FILES
 			if files and path:
-				count_file = len(files)
-				fix_count_upload = 0
+				response['msg']['params'][0] = 0
+				response['msg']['params'][1] = len(files)
 				for name in files:
 					f = files.get(name, None)
 					upload_name = fm.upload_file(f)
 					if upload_name:
-						fix_count_upload += 1
+						response['msg']['params'][0] += 1
 				response['msg']['query'] = "BE_UPLOADALL_UPLOADS %s / %s"
-				response['msg']['params'].append(fix_count_upload)
-				response['msg']['params'].append(count_file)
 	  elif action == 'newfolder':
 	  	folder_name = fm.create_directory(request.POST.get('name'))
 	  	if folder_name != '' and folder_name != None:
@@ -55,7 +56,6 @@ def connector(request):
 	  	name = request.POST.get('name')
 	  	rename = fm.rename(nameold, name)
 	  	if rename:
-	  		print rename
 	  		response['data'] = {'newnamefile': rename, 'odlnamefile': nameold}
 	  		response['msg']['params'] = "BE_RENAME_MODIFIED"
 	  elif action == 'deletefile':
