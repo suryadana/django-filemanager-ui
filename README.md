@@ -8,6 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 The application already support with tinymce editor.
 
 ### Installing
+
 Get script from github with command:
 ```
 git clone https://github.com/suryadana/django-filemanager-ui.git
@@ -32,5 +33,7 @@ Hook this app into your ``urls.py``:
 ```
 
 ### Thanks to
+
 Thanks for [filemanager-ui](https://github.com/guillermomartinez/filemanager-ui)
+
 Thanks for [django-filemanager](https://github.com/byteweaver/django-filemanager)
