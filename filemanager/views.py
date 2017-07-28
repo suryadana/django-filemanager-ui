@@ -23,7 +23,7 @@ def connector(request):
 	  "data": [],
 	  "msg": {
 	    "query": "",
-	    "params": [],
+	    "params": [None, None],
 	  },
 	  "status": 1,
 	}
